@@ -22,7 +22,7 @@ GREEN3 = (0,255,65)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 40
+SPEED = 80
 
 class SnakeGame:
     
@@ -104,7 +104,7 @@ class SnakeGame:
         
     def _update_ui(self):
         self.display.fill(BLACK)
-        
+
         for pt in self.snake:
             pygame.draw.rect(self.display, GREEN1, pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
             pygame.draw.rect(self.display, GREEN2, pygame.Rect(pt.x+4, pt.y+4, 12, 12))
@@ -114,6 +114,7 @@ class SnakeGame:
         text = font.render("Score: " + str(self.score), True, GREEN2)
         self.display.blit(text, [0, 0])
         pygame.display.flip()
+
         
     def _move(self, direction):
         x = self.head.x

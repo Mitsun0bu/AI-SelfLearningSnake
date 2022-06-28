@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 from enum import Enum
 from collections import namedtuple
 import numpy as np
@@ -26,7 +27,7 @@ BLACK = (0, 0, 0)
 
 # Constants
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 50
 
 
 class SnakeGameAI:
@@ -86,6 +87,11 @@ class SnakeGameAI:
         if self.is_collision() or self.i_frame > 100 * len(self.snake):
             game_over = True
             reward = -10
+            self.display.fill(BLACK)
+            game_over_txt = font.render("game over", True, GREEN2)
+            self.display.blit(game_over_txt, [self.w/3, self.h/2])
+            pygame.display.flip()
+            time.sleep(0.5)
             return reward, game_over, self.score
         # 4. If snake is eating :
         # -> Place new food and update score and reward accordingly
@@ -99,7 +105,7 @@ class SnakeGameAI:
         else:
             self.snake.pop()
         # 5. Update UI and clock
-        self._update_ui()
+        self._update_ui(game_over)
         self.clock.tick(SPEED)
         # 6. Return game over and score
         return reward, game_over, self.score
@@ -116,7 +122,7 @@ class SnakeGameAI:
             return True
         return False
 
-    def _update_ui(self):
+    def _update_ui(self, game_over):
         '''This method update ui after each frame'''
         # Display background
         self.display.fill(BLACK)
